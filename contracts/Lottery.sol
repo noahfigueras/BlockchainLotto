@@ -26,6 +26,7 @@ contract Lottery is ChainlinkClient {
         governance.init(address(this), _governance);
     }
 
+    //Starting Oracle Alarm
     function start_new_lottery(uint256 duration) public {
         require(lottery_state == LOTTERY_STATE.CLOSED, "can't start a new lottery yet");
         lottery_state = LOTTERY_STATE.OPEN;
@@ -34,6 +35,7 @@ contract Lottery is ChainlinkClient {
         sendChainlinkRequestTo(oracle, req, oraclePayment);
     }
 
+    //Callback Function after Oracle Alarm is Fulfilled
     function fulfill_alarm(bytes32 _requestId) public recordChainlinkFulfillment(_requestId) {
         require(lottery_state == LOTTERY_STATE.OPEN, "The lottery hasn't even started!");
         lotteryId = lotteryId + 1;
