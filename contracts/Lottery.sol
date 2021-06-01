@@ -14,16 +14,16 @@ contract Lottery is ChainlinkClient {
     bytes32 private jobId;
     GovernanceInterface private governance;
 
-    constructor(address _oracle, uint256 _oraclePayment, uint256 _price, bytes32 _jobId, address _governance) public {
+    constructor(uint256 _price) public {
         setPublicChainlinkToken();
-        oracle = _oracle;
-        oraclePayment = _oraclePayment;
-        jobId = _jobId;
+        oracle = 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
+        oraclePayment = 0.1 * 10 ** 18;
+        jobId = '982105d690504c5d9ce374d040c08654';
         price = _price;
         lotteryId = 1;
         lottery_state = LOTTERY_STATE.CLOSED;
-        governance = GovernanceInterface(_governance);
-        governance.init(address(this), _governance);
+        //governance = GovernanceInterface();
+        //governance.init(address(this), _governance);
     }
 
     //Starting Oracle Alarm
