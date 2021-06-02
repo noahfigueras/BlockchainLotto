@@ -1,4 +1,5 @@
 const {expect} = require("chai");
+const { time } = require("@openzeppelin/test-helpers");
 
 describe("Lottery Contract", function() {
 
@@ -8,19 +9,41 @@ describe("Lottery Contract", function() {
     let Lottery;
     let lottery;
 
-    beforeEach(async function () {
+    before(async function () {
         Lottery = await ethers.getContractFactory("Lottery");
         [owner] = await ethers.getSigners();
-
+        
         lottery = await Lottery.deploy(
             price_lottery,
         );
+
+        //Starting new Lottery
+        await lottery.start_new_lottery(5);
+        
     });
 
     it("should start a chainlink alarm to init new lottery", async function() {
-        await lottery.start_new_lottery(30000);
+
         let lottery_state = await lottery.lottery_state();
 
-        console.log(lottery_state)
+        expect(lottery_state).to.equal(0);
+    })
+
+    it("increments lotteryID + 1, when chainlink alarm is fulfilled after duration time", async function() {
+
+        //Initial value
+        let lotteryId = await lottery.lotteryId();
+        expect(lotteryId).to.equal(1);
+
+        //Wait until alarm is fulfilled
+        function timeout(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        await timeout(10000);
+
+        //Expected value
+        lotteryId = await lottery.lotteryId();
+        expect(lotteryId).to.equal(2);
     })
 })

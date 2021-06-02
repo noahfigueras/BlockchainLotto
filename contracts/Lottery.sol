@@ -34,13 +34,13 @@ contract Lottery is ChainlinkClient {
         Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill_alarm.selector);
         req.addUint("until", now + duration);
         sendChainlinkRequestTo(oracle, req, oraclePayment);
-        console.log('Chainlink request made correctly3');
     }
 
     //Callback Function after Oracle Alarm is Fulfilled
     function fulfill_alarm(bytes32 _requestId) public recordChainlinkFulfillment(_requestId) {
         require(lottery_state == LOTTERY_STATE.OPEN, "The lottery hasn't even started!");
         lotteryId = lotteryId + 1;
+        console.log('ALARM_FULFILLED');
         pickWinner();
     }
 
@@ -66,6 +66,4 @@ contract Lottery is ChainlinkClient {
         players = new address payable[](0);
         lottery_state = LOTTERY_STATE.CLOSED;
     }
-
-
 } 
