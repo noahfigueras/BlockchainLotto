@@ -17,8 +17,10 @@ describe("Lottery Contract", function() {
         );
     });
 
-    it("is supposed to start a new lottery", async function() {
-        let foo = 'Noah';
-        expect(foo).to.be.a('string');
+    it("should start a chainlink alarm to init new lottery", async function() {
+        await lottery.start_new_lottery(30000);
+        let lottery_state = await lottery.lottery_state();
+
+        console.log(lottery_state)
     })
 })

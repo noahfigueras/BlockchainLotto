@@ -2,6 +2,7 @@ pragma solidity ^0.6.0;
 import "@chainlink/contracts/src/v0.6/ChainlinkClient.sol";
 import "./interfaces/RandomnessInterface.sol";
 import "./interfaces/GovernanceInterface.sol";
+import "hardhat/console.sol";
 
 contract Lottery is ChainlinkClient {
     enum LOTTERY_STATE { OPEN, CLOSED, CALCULATING_WINNER }
@@ -33,6 +34,7 @@ contract Lottery is ChainlinkClient {
         Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill_alarm.selector);
         req.addUint("until", now + duration);
         sendChainlinkRequestTo(oracle, req, oraclePayment);
+        console.log('Chainlink request made correctly3');
     }
 
     //Callback Function after Oracle Alarm is Fulfilled
