@@ -18,8 +18,18 @@ module.exports = {
     networks: {
         hardhat: {
             forking: {
-                url: process.env.ALCHEMY_URL,
+                url: process.env.ALCHEMY_URL_KOVAN,
             }
+        },
+        kovan: {
+            url: process.env.ALCHEMY_URL_KOVAN,
+            accounts: {
+              mnemonic: process.env.MNEMONIC,        
+            },
+            gas: "auto"
         }
+    },
+    mocha: {
+        timeout: 140000
     }
 };

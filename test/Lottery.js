@@ -12,13 +12,12 @@ describe("Lottery Contract", function() {
     before(async function () {
         Lottery = await ethers.getContractFactory("Lottery");
         [owner] = await ethers.getSigners();
-        
         lottery = await Lottery.deploy(
             price_lottery,
         );
 
         //Starting new Lottery
-        await lottery.start_new_lottery(5);
+        await lottery.start_new_lottery(60);
         
     });
 
@@ -27,23 +26,28 @@ describe("Lottery Contract", function() {
         let lottery_state = await lottery.lottery_state();
 
         expect(lottery_state).to.equal(0);
-    })
-
-    it("increments lotteryID + 1, when chainlink alarm is fulfilled after duration time", async function() {
 
         //Initial value
         let lotteryId = await lottery.lotteryId();
         expect(lotteryId).to.equal(1);
+    })
+
+    it("increments lotteryID + 1, when chainlink alarm is fulfilled after duration time", async function() {
 
         //Wait until alarm is fulfilled
         function timeout(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
         
-        await timeout(10000);
+        await timeout(120000);
 
         //Expected value
-        lotteryId = await lottery.lotteryId();
+        let lotteryId = await lottery.lotteryId();
         expect(lotteryId).to.equal(2);
     })
+
+    after(async function () {
+        
+    })
 })
+

@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/nf/Blockchain/BlockchainLotto/contracts/Lottery.sol": {
-      "lastModificationDate": 1622665115446,
-      "contentHash": "fb58d5801c5f12efc628ceac1ec78675",
+      "lastModificationDate": 1623436405410,
+      "contentHash": "9632b20f40fcffefa51f22a8409ecfcf",
       "sourceName": "contracts/Lottery.sol",
       "solcConfig": {
         "version": "0.6.6",

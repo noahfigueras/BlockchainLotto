@@ -32,8 +32,9 @@ contract Lottery is ChainlinkClient {
         require(lottery_state == LOTTERY_STATE.CLOSED, "can't start a new lottery yet");
         lottery_state = LOTTERY_STATE.OPEN;
         Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill_alarm.selector);
-        req.addUint("until", now + duration);
+        req.addUint("until", block.timestamp + duration);
         sendChainlinkRequestTo(oracle, req, oraclePayment);
+        console.log('LINK REQ SEND');
     }
 
     //Callback Function after Oracle Alarm is Fulfilled

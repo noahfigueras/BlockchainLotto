@@ -12,7 +12,6 @@ async function main() {
     const lottery = await Lottery.deploy(ethers.BigNumber.from(1));
 
     console.log('Lottery address:', lottery.address);
-    console.log('Lottery Account balance:', (await deployer.getBalance(lottery.address)).toString());
 }
 
 main()
