@@ -11,7 +11,7 @@ describe("Lottery Contract", function() {
 
     before(async function () {
         Lottery = await ethers.getContractFactory("Lottery");
-        [owner] = await ethers.getSigners();
+        [owner, player1] = await ethers.getSigners();
         lottery = await Lottery.deploy(
             price_lottery,
         );
@@ -30,6 +30,13 @@ describe("Lottery Contract", function() {
         //Initial value
         let lotteryId = await lottery.lotteryId();
         expect(lotteryId).to.equal(1);
+    })
+
+    it("allows user to join lottery", async function() {
+        //Player1 joins the lottery
+        await lottery.connect(player1).enter({value: price_lottery});
+        let player = await lottery.players(0)
+        expect(player1.address).to.equal(player);
     })
 
     it("reverts fullfill_alarm, before duration time", async function() {
