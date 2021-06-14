@@ -16,15 +16,15 @@ describe("Lottery Contract", function() {
             price_lottery,
         );
 
-        //Starting new Lottery
-        await lottery.start_new_lottery(60);
+        //Starting new Lottery with 20 s expiration time
+        await lottery.start_new_lottery(20);
         
     });
 
-    it("should start a chainlink alarm to init new lottery", async function() {
-
+    it("should init new lottery", async function() {
+        
+        //Lottery state is OPEN
         let lottery_state = await lottery.lottery_state();
-
         expect(lottery_state).to.equal(0);
 
         //Initial value
@@ -32,22 +32,30 @@ describe("Lottery Contract", function() {
         expect(lotteryId).to.equal(1);
     })
 
-    it("increments lotteryID + 1, when chainlink alarm is fulfilled after duration time", async function() {
+    it("reverts fullfill_alarm, before duration time", async function() {
+        
+        let state = false;
+        try {
+            //Alarm Callback Fullfilled
+            await lottery.fulfill_alarm();
+        } catch (err){
+            state = true; 
+        }
+        expect(state).to.equal(true);
+    })
 
+    it("fulfils_alarm, after duration time", async function() {
         //Wait until alarm is fulfilled
         function timeout(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
-        
-        await timeout(120000);
+                                            
+        await timeout(20000);
 
-        //Expected value
-        let lotteryId = await lottery.lotteryId();
-        expect(lotteryId).to.equal(2);
+        await lottery.fulfill_alarm();
     })
 
     after(async function () {
         
     })
 })
-

@@ -15,6 +15,8 @@ contract Lottery is ChainlinkClient {
     bytes32 private jobId;
     GovernanceInterface private governance;
 
+    mapping(uint => uint) public lottery_duration;
+
     constructor(uint256 _price) public {
         setPublicChainlinkToken();
         oracle = 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
@@ -31,18 +33,15 @@ contract Lottery is ChainlinkClient {
     function start_new_lottery(uint256 duration) public {
         require(lottery_state == LOTTERY_STATE.CLOSED, "can't start a new lottery yet");
         lottery_state = LOTTERY_STATE.OPEN;
-        Chainlink.Request memory req = buildChainlinkRequest(jobId, address(this), this.fulfill_alarm.selector);
-        req.addUint("until", block.timestamp + duration);
-        sendChainlinkRequestTo(oracle, req, oraclePayment);
-        console.log('LINK REQ SEND');
+        lottery_duration[lotteryId] = block.timestamp + duration;
     }
 
     //Callback Function after Oracle Alarm is Fulfilled
-    function fulfill_alarm(bytes32 _requestId) public recordChainlinkFulfillment(_requestId) {
+    function fulfill_alarm() external {
         require(lottery_state == LOTTERY_STATE.OPEN, "The lottery hasn't even started!");
+        require(lottery_duration[lotteryId] <= block.timestamp, "The Lottery has not ended yet");
         lotteryId = lotteryId + 1;
-        console.log('ALARM_FULFILLED');
-        pickWinner();
+        //pickWinner();
     }
 
     //User joins lottery
