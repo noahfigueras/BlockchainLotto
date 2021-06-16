@@ -9,14 +9,22 @@
           "internalType": "address",
           "name": "lottery",
           "type": "address"
-        },
+        }
+      ],
+      "name": "initLottery",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
         {
           "internalType": "address",
           "name": "randomness",
           "type": "address"
         }
       ],
-      "name": "init",
+      "name": "initRandomness",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

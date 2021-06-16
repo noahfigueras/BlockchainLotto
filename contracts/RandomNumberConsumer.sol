@@ -29,8 +29,11 @@ contract RandomNumberConsumer is VRFConsumerBase {
     {
         keyHash = 0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4;
         fee = 0.1 * 10 ** 18; // 0.1 LINK
-        governance = GovernanceInterface(_governance);
         vrfCoordinator = 0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9;
+
+        //Init Governance
+        governance = GovernanceInterface(_governance);
+        governance.initRandomness(address(this));
     } 
 
     //Request randomness from a user-provided seed

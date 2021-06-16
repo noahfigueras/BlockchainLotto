@@ -17,7 +17,7 @@ contract Lottery is ChainlinkClient {
 
     mapping(uint => uint) public lottery_duration;
 
-    constructor(uint256 _price) public {
+    constructor(uint256 _price, address _governance) public {
         setPublicChainlinkToken();
         oracle = 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
         oraclePayment = 0.1 * 10 ** 18;
@@ -25,8 +25,10 @@ contract Lottery is ChainlinkClient {
         price = _price;
         lotteryId = 1;
         lottery_state = LOTTERY_STATE.CLOSED;
-        //governance = GovernanceInterface();
-        //governance.init(address(this), _governance);
+
+        //Governance Init
+        governance = GovernanceInterface(_governance);
+        governance.initLottery(address(this));
     }
 
     //Starting Oracle Alarm

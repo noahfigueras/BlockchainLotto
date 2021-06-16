@@ -1,5 +1,4 @@
 const {expect} = require("chai");
-const { time } = require("@openzeppelin/test-helpers");
 
 describe("Lottery Contract", function() {
 
@@ -8,13 +7,19 @@ describe("Lottery Contract", function() {
     let owner;
     let Lottery;
     let lottery;
+    let Governance;
+    let governance;
 
     before(async function () {
         Lottery = await ethers.getContractFactory("Lottery");
+        Governance = await ethers.getContractFactory("Governance");
+
+        //Get accounts
         [owner, player1] = await ethers.getSigners();
-        lottery = await Lottery.deploy(
-            price_lottery,
-        );
+        
+        //Deploy Contracts
+        governance = await Governance.deploy();
+        lottery = await Lottery.deploy(price_lottery, governance.address);
 
         //Starting new Lottery with 20 s expiration time
         await lottery.start_new_lottery(20);
@@ -60,6 +65,7 @@ describe("Lottery Contract", function() {
         await timeout(20000);
 
         await lottery.fulfill_alarm();
+        expect(await lottery.lotteryId()).to.equal(2); 
     })
 
     after(async function () {
