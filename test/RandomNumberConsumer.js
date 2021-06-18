@@ -33,8 +33,7 @@ describe("RandomNumberConsumer Contract", function() {
         let random_number = await randomness.getRandomNumber(1);
 
         let number = await randomness.most_recent_random();
-        console.log(number.toString());
-//        expect(await randomness.most_recent_random().to.not.equal(0))
+        expect(number.toString()).to.not.equal(0))
     })
 })
         
