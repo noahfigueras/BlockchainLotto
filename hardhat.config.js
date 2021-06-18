@@ -19,7 +19,11 @@ module.exports = {
         hardhat: {
             forking: {
                 url: process.env.ALCHEMY_URL_KOVAN,
-            }
+            },
+            accounts: {
+              mnemonic: process.env.MNEMONIC,        
+            },
+            gas: "auto"
         },
         kovan: {
             url: process.env.ALCHEMY_URL_KOVAN,
