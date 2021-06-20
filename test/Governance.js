@@ -47,7 +47,7 @@ describe("Governance Contract", function() {
 
     it("returns randomNumberConsumer contract address", async function () {
         let Randomness = await ethers.getContractFactory("RandomNumberConsumer");
-        let randomness = await Randomness.deploy(governance.address);
+        let randomness = await Randomness.deploy(governance.address, '0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9');
 
         expect(randomness.address).to.equal(await governance.randomness());
     });
