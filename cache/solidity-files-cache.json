@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/home/nf/Blockchain/BlockchainLotto/contracts/Lottery.sol": {
-      "lastModificationDate": 1623867197622,
-      "contentHash": "18710b5e45ecfa9ec4e07c22d7cb2262",
+      "lastModificationDate": 1624322419727,
+      "contentHash": "7bf77dd74525f7b9e449577cdb8a260b",
       "sourceName": "contracts/Lottery.sol",
       "solcConfig": {
         "version": "0.6.6",
@@ -359,8 +359,8 @@
       ]
     },
     "/home/nf/Blockchain/BlockchainLotto/contracts/Governance.sol": {
-      "lastModificationDate": 1623867329832,
-      "contentHash": "7eea67d23eb8732cada5c41d2c9fb0bb",
+      "lastModificationDate": 1624322670417,
+      "contentHash": "9b67a46a317099487343df73273b6b1a",
       "sourceName": "contracts/Governance.sol",
       "solcConfig": {
         "version": "0.6.6",
@@ -427,8 +427,8 @@
       ]
     },
     "/home/nf/Blockchain/BlockchainLotto/contracts/RandomNumberConsumer.sol": {
-      "lastModificationDate": 1624231567222,
-      "contentHash": "2d95644d0fd88e439ea8a5f552eed8ce",
+      "lastModificationDate": 1624321629318,
+      "contentHash": "21f6048bb07c6cc9aca430abfd731b34",
       "sourceName": "contracts/RandomNumberConsumer.sol",
       "solcConfig": {
         "version": "0.6.6",
@@ -607,8 +607,8 @@
       ]
     },
     "/home/nf/Blockchain/BlockchainLotto/contracts/interfaces/RandomnessInterface.sol": {
-      "lastModificationDate": 1622266587639,
-      "contentHash": "c0561b42f60d57897ab90d257ff742f2",
+      "lastModificationDate": 1624321524458,
+      "contentHash": "ca3cddba1d2f96e1fe8cef99c2fc71cf",
       "sourceName": "contracts/interfaces/RandomnessInterface.sol",
       "solcConfig": {
         "version": "0.6.6",

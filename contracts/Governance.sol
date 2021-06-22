@@ -19,7 +19,7 @@ contract Governance {
     }
     
     function randomness() external view returns(address) {
-        require(Randomness != address(0), "no-lottery-address-given");
+        require(Randomness != address(0), "no-randomNumberConsumer-address-given");
         return Randomness;
     }
 

@@ -43,7 +43,9 @@ contract Lottery is ChainlinkClient {
         require(lottery_state == LOTTERY_STATE.OPEN, "The lottery hasn't even started!");
         require(lottery_duration[lotteryId] <= block.timestamp, "The Lottery has not ended yet");
         lotteryId = lotteryId + 1;
-        //pickWinner();
+        lottery_state = LOTTERY_STATE.CALCULATING_WINNER;
+        console.log('HIT');
+        pickWinner();
     }
 
     //User joins lottery
@@ -56,7 +58,7 @@ contract Lottery is ChainlinkClient {
     //Picking Winner
     function pickWinner() private {
         require(lottery_state == LOTTERY_STATE.CALCULATING_WINNER, "You aren't at that stage yet");
-        RandomnessInterface(governance.randomness()).getRandom(lotteryId, lotteryId);
+        RandomnessInterface(governance.randomness()).getRandomNumber(lotteryId);
     }
     
     //Get Winner through generated random number

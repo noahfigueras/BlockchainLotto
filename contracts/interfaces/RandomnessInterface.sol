@@ -1,7 +1,6 @@
 pragma solidity ^0.6.0;
 
 interface RandomnessInterface {
-    function randomNumber(uint) external view returns (uint);
-    function getRandom(uint, uint) external;
+    function getRandomNumber(uint256 userProvidedSeed) external view returns (bytes32 requestId);
 }
 

@@ -52,7 +52,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
         randomResult = randomness;
         //uint lotteryId = requestIds[requestId];
         //randomNumber[lotteryId] = randomness;
-       // LotteryInterface(governance.lottery()).fulfill_random(randomness);
+        LotteryInterface(governance.lottery()).fulfill_random(randomness);
     }
 }
 

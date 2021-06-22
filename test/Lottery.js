@@ -9,21 +9,34 @@ describe("Lottery Contract", function() {
     let lottery;
     let Governance;
     let governance;
+    let Randomness;
+    let randomness;
 
     before(async function () {
+
         Lottery = await ethers.getContractFactory("Lottery");
         Governance = await ethers.getContractFactory("Governance");
+        Randomness = await ethers.getContractFactory("RandomNumberConsumer");
 
         //Get accounts
         [owner, player1] = await ethers.getSigners();
         
         //Deploy Contracts
         governance = await Governance.deploy();
+        randomness = await Randomness.deploy(governance.address, '0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9');
         lottery = await Lottery.deploy(price_lottery, governance.address);
 
         //Starting new Lottery with 20 s expiration time
         await lottery.start_new_lottery(20);
         
+        // Send Link to governance address;
+        const link_address = '0xa36085F69e2889c224210F603D836748e7dC0088';
+        const abi = [
+            "function transfer(address to, uint256 value) external returns (bool success)",
+            "function balanceOf(address owner) external view returns (uint256 balance)"
+        ];
+        const link = new ethers.Contract(link_address, abi, owner);
+        await link.transfer(randomness.address, ethers.utils.parseEther("0.5"), {gasLimit:"5000000"});
     });
 
     it("should init new lottery", async function() {
