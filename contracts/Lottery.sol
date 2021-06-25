@@ -14,6 +14,8 @@ contract Lottery is ChainlinkClient {
 
     mapping(uint => uint) public lottery_duration;
 
+    event AnnounceWinner(address winner);
+
     constructor(uint256 _price, address _governance) public {
         setPublicChainlinkToken();
         price = _price;
@@ -60,6 +62,10 @@ contract Lottery is ChainlinkClient {
         require(randomness > 0, "random-not-found");
         uint256 index = randomness % players.length;
         players[index].transfer(address(this).balance);
+
+        emit AnnounceWinner(address(players[index]));
+
+        //Reset Lottery
         players = new address payable[](0);
         lottery_state = LOTTERY_STATE.CLOSED;
     }
