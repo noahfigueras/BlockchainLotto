@@ -1,4 +1,4 @@
-pragma solidity ^0.6.6;
+pragma solidity ^0.6.0;
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 import "./interfaces/GovernanceInterface.sol";
 import "./interfaces/LotteryInterface.sol";
@@ -40,7 +40,7 @@ contract RandomNumberConsumer is VRFConsumerBase {
     } 
 
     //Request randomness from a user-provided seed
-    function getRandomNumber(uint256 userProvidedSeed) public returns (bytes32 requestId) {
+    function getRandomNumber(uint256 userProvidedSeed) external returns (bytes32 requestId) {
         require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - fill contract with faucet");
         requestId = requestRandomness(keyHash, fee, userProvidedSeed);
         emit RequestedRandomness(requestId);

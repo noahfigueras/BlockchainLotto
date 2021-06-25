@@ -8,20 +8,14 @@ contract Lottery is ChainlinkClient {
     enum LOTTERY_STATE { OPEN, CLOSED, CALCULATING_WINNER }
     LOTTERY_STATE public lottery_state;
     address payable[] public players;
-    address oracle;
     uint256 public lotteryId;
     uint256 public price;
-    uint256 private oraclePayment;
-    bytes32 private jobId;
     GovernanceInterface private governance;
 
     mapping(uint => uint) public lottery_duration;
 
     constructor(uint256 _price, address _governance) public {
         setPublicChainlinkToken();
-        oracle = 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
-        oraclePayment = 0.1 * 10 ** 18;
-        jobId = '982105d690504c5d9ce374d040c08654';
         price = _price;
         lotteryId = 1;
         lottery_state = LOTTERY_STATE.CLOSED;
@@ -44,7 +38,6 @@ contract Lottery is ChainlinkClient {
         require(lottery_duration[lotteryId] <= block.timestamp, "The Lottery has not ended yet");
         lotteryId = lotteryId + 1;
         lottery_state = LOTTERY_STATE.CALCULATING_WINNER;
-        console.log('HIT');
         pickWinner();
     }
 
@@ -56,7 +49,7 @@ contract Lottery is ChainlinkClient {
     }
 
     //Picking Winner
-    function pickWinner() private {
+    function pickWinner() internal {
         require(lottery_state == LOTTERY_STATE.CALCULATING_WINNER, "You aren't at that stage yet");
         RandomnessInterface(governance.randomness()).getRandomNumber(lotteryId);
     }
@@ -70,4 +63,5 @@ contract Lottery is ChainlinkClient {
         players = new address payable[](0);
         lottery_state = LOTTERY_STATE.CLOSED;
     }
+
 } 

@@ -26,8 +26,8 @@ describe("Lottery Contract", function() {
         randomness = await Randomness.deploy(governance.address, '0xdD3782915140c8f3b190B5D67eAc6dc5760C46E9');
         lottery = await Lottery.deploy(price_lottery, governance.address);
 
-        //Starting new Lottery with 20 s expiration time
-        await lottery.start_new_lottery(20);
+        //Starting new Lottery with 5 s expiration time
+        await lottery.start_new_lottery(5);
         
         // Send Link to governance address;
         const link_address = '0xa36085F69e2889c224210F603D836748e7dC0088';
@@ -75,7 +75,7 @@ describe("Lottery Contract", function() {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
                                             
-        await timeout(20000);
+        await timeout(5000);
 
         await lottery.fulfill_alarm();
         expect(await lottery.lotteryId()).to.equal(2); 

@@ -3,6 +3,7 @@ const {expect} = require("chai");
 describe("RandomNumberConsumer Contract", function() {
     
     //Global variables
+    const price_lottery = ethers.BigNumber.from(1);
     let owner;
     let Randomness;
     let randomness;
@@ -10,20 +11,24 @@ describe("RandomNumberConsumer Contract", function() {
     let governance;
     let VRFMock;
     let vrfMock;
+    let Lottery;
+    let lottery;
 
     before(async function() {
 
         const link_address = '0xa36085F69e2889c224210F603D836748e7dC0088';
 
+        Lottery    = await ethers.getContractFactory("Lottery");
         Governance = await ethers.getContractFactory("Governance");
         Randomness = await ethers.getContractFactory("RandomNumberConsumer");
         VRFMock    = await ethers.getContractFactory("VRFCoordinatorMock");
 
         vrfMock    = await VRFMock.deploy(link_address);
         governance = await Governance.deploy();
+        lottery    = await Lottery.deploy(price_lottery, governance.address);
         randomness = await Randomness.deploy(governance.address, vrfMock.address);
 
-        [owner] = await ethers.getSigners();
+        [owner, player1, player2, player3] = await ethers.getSigners();
 
         // Send Link to governance address;
         const abi = [
@@ -37,7 +42,13 @@ describe("RandomNumberConsumer Contract", function() {
     })
 
     it("provides a truely random number from chainlink vrf", async function() {
-        let expected = '777';
+        await lottery.start_new_lottery(0);
+        await lottery.connect(player1).enter({value: price_lottery});
+        await lottery.connect(player2).enter({value: price_lottery});
+        await lottery.connect(player3).enter({value: price_lottery});
+        await lottery.fulfill_alarm();
+
+        let expected = 777;
         let transaction = await randomness.getRandomNumber(1);
         let tx_receipt = await transaction.wait();
 
